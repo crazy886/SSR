@@ -360,8 +360,8 @@ function install_shadowsocks(){
 		fi
 		if [ "$answer" = "y" ]; then
 		    #卸载
-            uninstall_action
-			#安装
+                    uninstall_action
+		    #安装
 		    install_action
 		else
 		    echo "已取消重新安装..."
