@@ -147,11 +147,11 @@ function pre_install(){
 
 # Download files
 function download_files(){
-    # Download libsodium file
-    # if ! wget --no-check-certificate -O libsodium-1.0.10.tar.gz http://service.chuxen.com/libsodium-1.0.10.tar.gz; then
-        # echo "下载 libsodium 文件失败！"
-        # exit 1
-    # fi
+    #Download libsodium file
+    if ! wget --no-check-certificate -O libsodium-1.0.10.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.10/libsodium-1.0.10.tar.gz; then
+        echo "下载 libsodium 文件失败！"
+        exit 1
+    fi
     # Download ShadowsocksR file
     # if ! wget --no-check-certificate -O manyuser.zip http://service.chuxen.com/shadowsocks-manyuser.zip; then
         # echo "Failed to download ShadowsocksR file!"
