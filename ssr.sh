@@ -148,172 +148,26 @@ function pre_install(){
 # Download files
 function download_files(){
     #Download libsodium file
-    if ! wget --no-check-certificate -O libsodium-1.0.10.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.10/libsodium-1.0.10.tar.gz; then
+    if ! wget --no-check-certificate -O libsodium-1.0.10.tar.gz https://github.com/crazy886/SSR/releases/download/libsodium1.0.10/libsodium-1.0.10.tar.gz; then
         echo "下载 libsodium 文件失败！"
         exit 1
     fi
     # Download ShadowsocksR file
-    # if ! wget --no-check-certificate -O manyuser.zip http://service.chuxen.com/shadowsocks-manyuser.zip; then
+    # if ! wget --no-check-certificate -O manyuser.zip https://github.com/crazy886/SSR/releases/download/libsodium1.0.10/shadowsocks-manyuser.zip; then
         # echo "Failed to download ShadowsocksR file!"
         # exit 1
     # fi
-	
-    #Download ShadowsocksR chkconfig file
+    # Download ShadowsocksR chkconfig file
     if [ "$OS" == 'CentOS' ]; then
-        echo -E '#!/bin/bash
-# chkconfig: 2345 90 10
-# description: start or stop the ShadowsocksR server
-#
-### BEGIN INIT INFO
-# Provides: ShadowsocksR
-# Required-Start: $network $syslog
-# Required-Stop: $network
-# Default-Start: 2 3 4 5
-# Default-Stop: 0 1 6
-# Description: Start or stop the ShadowsocksR server
-### END INIT INFO
-
-# Author: Teddysun <i@teddysun.com>
-
-name=ShadowsocksR
-BIN=/usr/local/shadowsocks/shadowsocks/server.py
-conf=/etc/shadowsocks.json
-
-start(){
-    $BIN -c $conf -d start
-    RETVAL=$?
-    if [ "$RETVAL" = "0" ]; then
-        echo "$name start success"
-    else
-        echo "$name start failed"
-    fi
-}
-
-stop(){
-    pid=`ps -ef | grep -v grep | grep -i "${BIN}" | awk '{print $2}'`
-    if [[ ! -z $pid ]]; then
-        $BIN -c $conf -d stop
-        RETVAL=$?
-        if [ "$RETVAL" = "0" ]; then
-            echo "$name stop success"
-        else
-            echo "$name stop failed"
+        if ! wget --no-check-certificate https://github.com/crazy886/SSR/releases/download/libsodium1.0.10/ShadowsocksR -O /etc/init.d/shadowsocks; then
+            echo "下载 ShadowsocksR 文件失败！"
+            exit 1
         fi
     else
-        echo "$name is not running"
-        RETVAL=1
-    fi
-}
-
-status(){
-    pid=`ps -ef | grep -v grep | grep -i "${BIN}" | awk '{print $2}'`
-    if [[ -z $pid ]]; then
-        echo "$name is not running"
-        RETVAL=1
-    else
-        echo "$name is running with PID $pid"
-        RETVAL=0
-    fi
-}
-
-case "$1" in
-'start')
-    start
-    ;;
-'stop')
-    stop
-    ;;
-'status')
-    status
-    ;;
-'restart')
-    stop
-    start
-    RETVAL=$?
-    ;;
-*)
-    echo "Usage: $0 { start | stop | restart | status }"
-    RETVAL=1
-    ;;
-esac
-exit $RETVAL' > /etc/init.d/shadowsocks
-
-    else
-        echo -E '#!/bin/bash
-### BEGIN INIT INFO
-# Provides:          ShadowsocksR
-# Required-Start:    $network $local_fs $remote_fs
-# Required-Stop:     $network $local_fs $remote_fs
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Fast tunnel proxy that helps you bypass firewalls
-# Description:       A secure socks5 proxy, designed to protect your Internet traffic.
-### END INIT INFO
-
-# Author: Teddysun <i@teddysun.com>
-
-name=ShadowsocksR
-BIN=/usr/local/shadowsocks/shadowsocks/server.py
-conf=/etc/shadowsocks.json
-
-start(){
-    $BIN -c $conf -d start
-    RETVAL=$?
-    if [ "$RETVAL" = "0" ]; then
-        echo "$name start success"
-    else
-        echo "$name start failed"
-    fi
-}
-
-stop(){
-    pid=`ps -ef | grep -v grep | grep -i "${BIN}" | awk '{print $2}'`
-    if [[ ! -z $pid ]]; then
-        $BIN -c $conf -d stop
-        RETVAL=$?
-        if [ "$RETVAL" = "0" ]; then
-            echo "$name stop success"
-        else
-            echo "$name stop failed"
+        if ! wget --no-check-certificate https://github.com/crazy886/SSR/releases/download/libsodium1.0.10/ShadowsocksR-debian -O /etc/init.d/shadowsocks; then
+            echo "下载 ShadowsocksR-debian 文件失败！"
+            exit 1
         fi
-    else
-        echo "$name is not running"
-        RETVAL=1
-    fi
-}
-
-status(){
-    pid=`ps -ef | grep -v grep | grep -i "${BIN}" | awk '{print $2}'`
-    if [[ -z $pid ]]; then
-        echo "$name is not running"
-        RETVAL=1
-    else
-        echo "$name is running with PID $pid"
-        RETVAL=0
-    fi
-}
-
-case "$1" in
-'start')
-    start
-    ;;
-'stop')
-    stop
-    ;;
-'status')
-    status
-    ;;
-'restart')
-    stop
-    start
-    RETVAL=$?
-    ;;
-*)
-    echo "Usage: $0 { start | stop | restart | status }"
-    RETVAL=1
-    ;;
-esac
-exit $RETVAL' > /etc/init.d/shadowsocks
     fi
 }
 
