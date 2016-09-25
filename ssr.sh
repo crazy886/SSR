@@ -160,8 +160,7 @@ function download_files(){
 	
     #Download ShadowsocksR chkconfig file
     if [ "$OS" == 'CentOS' ]; then
-        cat > /etc/init.d/shadowsocks<<-EOF
-#!/bin/bash
+        echo -E '#!/bin/bash
 # chkconfig: 2345 90 10
 # description: start or stop the ShadowsocksR server
 #
@@ -237,12 +236,10 @@ case "$1" in
     RETVAL=1
     ;;
 esac
-exit $RETVAL
-EOF
+exit $RETVAL' > /etc/init.d/shadowsocks
 
     else
-        cat > /etc/init.d/shadowsocks<<-EOF
-#!/bin/bash
+        echo -E '#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          ShadowsocksR
 # Required-Start:    $network $local_fs $remote_fs
@@ -316,8 +313,7 @@ case "$1" in
     RETVAL=1
     ;;
 esac
-exit $RETVAL
-EOF
+exit $RETVAL' > /etc/init.d/shadowsocks
     fi
 }
 
