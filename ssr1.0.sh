@@ -310,7 +310,7 @@ function install_action(){
     config_shadowsocks
     install_ss
     if [ "$OS" == 'CentOS' ]; then
-        # firewall_set > /dev/null 2>&1
+        firewall_set > /dev/null 2>&1
     fi
 	check_datetime
     install_cleanup
@@ -360,8 +360,8 @@ function install_shadowsocks(){
 		fi
 		if [ "$answer" = "y" ]; then
 		    #卸载
-                    uninstall_action
-		    #安装
+            uninstall_action
+			#安装
 		    install_action
 		else
 		    echo "已取消重新安装..."
