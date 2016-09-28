@@ -310,7 +310,7 @@ function install_action(){
     config_shadowsocks
     install_ss
     if [ "$OS" == 'CentOS' ]; then
-        firewall_set > /dev/null 2>&1
+        # firewall_set > /dev/null 2>&1
     fi
 	check_datetime
     install_cleanup
