@@ -11,7 +11,7 @@ clear
 yum -y install git
 echo -e "\033[34m================================================================\033[0m
 
-                欢迎使用Shadowsocks-R一键脚本
+                欢迎使用 Shadowsocks-R 一键脚本
 
             系统要求:  CentOS 6,7, Debian, Ubuntu
             描述: 一键安装 ShadowsocksR 服务器
@@ -35,8 +35,8 @@ fi
 # Make sure only root can run our script
 function rootness(){
     if [[ $EUID -ne 0 ]]; then
-       echo "错误：本脚本必须以root用户执行！" 1>&2
-       exit 1
+        echo -e "\033[31m 错误：本脚本必须以root用户执行！\033[0m" 1>&2
+        exit 1
     fi
 }
 
@@ -49,7 +49,7 @@ function checkos(){
     elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
         OS='Ubuntu'
     else
-        echo "不支持该操作系统，请重新安装并重试！"
+		echo -e "\033[31m 不支持该操作系统，请重新安装并重试！\033[0m"
         exit 1
     fi
 }
@@ -87,7 +87,7 @@ fi
 function pre_install(){
     # Not support CentOS 5
     if centosversion 5; then
-        echo "不支持 CentOS 5, 请更新操作系统至 CentOS 6+/Debian 7+/Ubuntu 12+ 并重试。"
+		echo -e "\033[31m 不支持 CentOS 5, 请更新操作系统至 CentOS 6+/Debian 7+/Ubuntu 12+ 并重试。\033[0m"
         exit 1
     fi
     # Set ShadowsocksR config password
@@ -115,10 +115,10 @@ function pre_install(){
             echo
             break
         else
-            echo "输入错误，请输入1-65535之间的数字！"
+			echo -e "\033[31m 输入错误，请输入1-65535之间的数字！\033[0m"
         fi
     else
-        echo "你看不懂人话吗！"
+		echo -e "\033[31m 你看不懂人话吗！\033[0m"
     fi
     done
     get_char(){
@@ -148,7 +148,7 @@ function pre_install(){
 function download_files(){
     #Download libsodium file
     if ! wget --no-check-certificate -O libsodium-1.0.10.tar.gz https://github.com/crazy886/SSR/releases/download/libsodium1.0.10/libsodium-1.0.10.tar.gz; then
-        echo "下载 libsodium 文件失败！"
+		echo -e "\033[31m 下载 libsodium 文件失败！\033[0m"
         exit 1
     fi
     # Download ShadowsocksR file
@@ -159,12 +159,12 @@ function download_files(){
     # Download ShadowsocksR chkconfig file
     if [ "$OS" == 'CentOS' ]; then
         if ! wget --no-check-certificate https://github.com/crazy886/SSR/releases/download/libsodium1.0.10/ShadowsocksR -O /etc/init.d/shadowsocks; then
-            echo "下载 ShadowsocksR 文件失败！"
+			echo -e "\033[31m 下载 ShadowsocksR 文件失败！\033[0m"
             exit 1
         fi
     else
         if ! wget --no-check-certificate https://github.com/crazy886/SSR/releases/download/libsodium1.0.10/ShadowsocksR-debian -O /etc/init.d/shadowsocks; then
-            echo "下载 ShadowsocksR-debian 文件失败！"
+			echo -e "\033[31m 下载 ShadowsocksR-debian 文件失败！\033[0m"
             exit 1
         fi
     fi
@@ -186,7 +186,7 @@ function firewall_set(){
                 echo "端口 ${shadowsocksport} 已设置。"
             fi
         else
-            echo "警告：iptables 看起来好像已关闭或未安装，如果必要的话请手动设置它。"
+			echo -e "\033[31m 警告：iptables 看起来好像已关闭或未安装，如果必要的话请手动设置它。\033[0m"
         fi
     elif centosversion 7; then
         systemctl status firewalld > /dev/null 2>&1
@@ -202,7 +202,7 @@ function firewall_set(){
                 firewall-cmd --permanent --zone=public --add-port=${shadowsocksport}/udp
                 firewall-cmd --reload
             else
-                echo "警告：启动 firewalld 失败。如果必要的话请手动确保端口${shadowsocksport}能使用。"
+				echo -e "\033[31m 警告：启动 firewalld 失败。如果必要的话请手动确保端口${shadowsocksport}能使用。\033[0m"
             fi
         fi
     fi
@@ -278,7 +278,7 @@ function install_ss(){
         echo "安装完毕！去享受这种愉悦感吧！"
         echo
     else
-        echo "Shadowsocks安装失败!"
+		echo -e "\033[31m Shadowsocks安装失败！\033[0m"
         install_cleanup
         exit 1
     fi
