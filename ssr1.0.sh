@@ -385,8 +385,8 @@ function change_port(){
 		        echo "当前新端口: $shadowsocksport"
 				sed -i 's/"server_port": [0-9]*,/"server_port": '$shadowsocksport',/' /etc/shadowsocks.json
 				if [ "$OS" == 'CentOS' ]; then
-                    firewall_set > /dev/null 2>&1
-                fi
+                                    firewall_set > /dev/null 2>&1
+                                fi
 				echo "正在重启ShadowsocksR..."
 				/etc/init.d/shadowsocks restart
 				echo "当前ShadowsocksR状态："
